@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter as Router} from 'react-router-dom'
 
-function App() {
+import { MainRoutes } from './routes'
+
+import { Header } from './components/Header'
+import { NewDeliveryForm } from './components/NewDeliveryForm';
+import { NewDeliveryButton } from './components/NewDeliveryButton';
+import { DeliveryDetailsModal } from './components/Modals/DeliveryDetailsModal'
+import { DeliverymanProfileModal } from './components/Modals/DeliverymanProfileModal'
+
+import { GlobalStyle } from './styles/global'
+import { 
+    Container, 
+    Main 
+} from './styles'
+import { Login } from './pages/Login';
+
+export function App() {
+  const [isUserLogged, setIsUserLogged] = useState(false)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {isUserLogged ? (
+        <>
+          <button onClick={() => setIsUserLogged(false)}>
+            logout
+          </button>
+          <Header />
+          <Container>
+              <NewDeliveryButton />
+              <aside>
+                  <NewDeliveryForm />
+              </aside>
+
+              <Main>
+                  <MainRoutes />
+              </Main>
+          </Container>
+        </>
+      ) : (
+        <>
+          <button onClick={() => setIsUserLogged(true)}>
+            login
+          </button>
+          <Login />
+        </>
+      )}
+        <DeliveryDetailsModal />
+        <DeliverymanProfileModal />
+        <GlobalStyle />
+    </Router>
   );
 }
-
-export default App;
