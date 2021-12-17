@@ -32,15 +32,15 @@ export const GlobalStyle = createGlobalStyle`
 
     html { 
         overflow-x: hidden;
-
-        @media (max-width: 1440px) {
+        
+        @media (max-width: 1080px) {
             font-size: 93.75%;
         }
-
-        @media (max-width: 1366px) {
-            font-size: 75%;
+        
+        @media (max-width: 720px) {
+            font-size: 87.5%;
         }
-
+        
         @media (max-width: 375px) {
             font-size: 81.25%;
         }
@@ -48,14 +48,6 @@ export const GlobalStyle = createGlobalStyle`
         @media (max-width: 320px) {
             font-size: 75%;
         } 
-
-        /* @media (max-width: 1080px) {
-            font-size: 93.75%;
-        }
-
-        @media (max-width: 720px) {
-            font-size: 87.5%;
-        }*/
     }
 
     body {

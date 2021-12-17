@@ -20,14 +20,25 @@ import {
 } from "react-icons/md"
 import { SubmitButton } from "../../styles/MaterialDesign"
 
-export function Finance() {
+type Finance_Model_Item = {
+    id: number,
+    description: string,
+    date: string,
+    value: string
+}
 
+type Finance_Model = {
+    currentBalance: string,
+    items: Finance_Model_Item[]
+}
+
+export function Finance(props: Finance_Model) {
     return(
         <Container>
             <Balance>
                 <CurrentBalance>
                     <span>Saldo atual</span>
-                    <h1>R$ 300,00</h1>
+                    <h1>{props.currentBalance}</h1>
                 </CurrentBalance>
 
                 <AddBalance>
@@ -70,21 +81,24 @@ export function Finance() {
                 <header>
                     <span>27 Nov</span>
                 </header>
+                {
+                    props.items.map((item) => 
+                        <Payment key={item.id}>
+                            <Icon>
+                                <FaDollarSign />
+                            </Icon>
 
-                <Payment>
-                    <Icon>
-                        <FaDollarSign />
-                    </Icon>
+                            <Description>
+                                <strong>{item.description}</strong>
+                                <p>{item.date}</p>
+                            </Description>
 
-                    <Description>
-                        <strong>Status do pagamento</strong>
-                        <p>12:36</p>
-                    </Description>
-
-                    <Amount>
-                        R$ 100,00
-                    </Amount>
-                </Payment>
+                            <Amount>
+                                {item.value}
+                            </Amount>
+                        </Payment>
+                    )
+                }
             </DayPayments>
         </Container>
     )

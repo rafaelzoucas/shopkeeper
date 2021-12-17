@@ -1,0 +1,126 @@
+.animated {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+self {
+    z-index: 5000;
+    max-width: calc(100% - 20px);
+}
+
+span {
+    font-size: 14px;
+}
+
+[data-notify="container"] {
+    max-width: calc(100% - 20px);
+    width: 425px;
+    opacity: 0;
+    background-color: white;
+    transform: translate3d(0, -100%, 0);
+    border-width: 0px;
+    border-left: 1rem solid;
+    border-radius: 0px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+    font-family: inherit;
+    letter-spacing: 1px;
+    padding: 1rem;
+    display: inline-block;
+    margin: 0px auto;
+    position: fixed;
+    transition: all 0.2s ease 0s;
+    z-index: 1100;
+    top: 1rem;
+    right: 0.625rem;
+}
+
+[data-notify="title"]::before {
+    font-family: 'FontAwesome', 'Font Awesome 5 Free';
+    margin-right: 4px;
+}
+
+[data-notify="title"] {
+    color: rgb(80, 80, 57);
+    display: block;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+/************  WARNING  ************/
+
+.alert-pastel-warning {
+    border-left-color: #f39c12;
+}
+
+.alert-pastel-warning [data-notify="title"]::before {
+    content: '\f12a';
+    color: #f39c12;
+}
+
+/************  INFO  ************/
+
+.alert-pastel-info {
+    border-left-color: #00c0ef;
+}
+
+.alert-pastel-info [data-notify="title"]::before {
+    content: '\f05a';
+    color: #00c0ef;
+}
+
+/************  DANGER  ************/
+
+.alert-pastel-danger {
+    border-left-color: #dd4b39;
+}
+
+.alert-pastel-danger [data-notify="title"]::before {
+    content: '\f05e';
+    color: #dd4b39;
+}
+
+/************  SUCCESS  ************/
+
+.alert-pastel-success {
+    border-left-color: #00a65a;
+}
+
+.alert-pastel-success [data-notify="title"]::before {
+    content: '\f00c';
+    color: #00a65a;
+}
+
+/************  LOADING  ************/
+
+.alert-pastel-loading {
+    border-left-color: #666;
+}
+
+.alert-pastel-loading [data-notify="title"] {
+    padding-left: 20px;
+    position: relative;
+}
+
+.alert-pastel-loading [data-notify="title"]::before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 1px;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #333;
+    animation: spinner .6s linear infinite;
+}		

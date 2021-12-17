@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api'
 
 import { FinishedDeliveries } from '../../components/FinishedDeliveries';
 import { DeliveriesCard } from '../../components/DeliveriesCard';
@@ -11,6 +12,11 @@ import {
 
 export function Deliveries() {
     const [isFilterActive, setIsFilterActive] = useState('inProgress')
+
+    useEffect(() => {
+        api.get('deliveries')
+            .then(response => console.log(response.data))
+    }, []) 
     
     return(
         <>

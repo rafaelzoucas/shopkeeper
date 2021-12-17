@@ -88,11 +88,9 @@ export const Menu = styled.div`
 
             display: inline;
 
-            transition: font-weight 0.1s;
+            transition: color 0.2s;
             
             &:hover {
-                font-weight: 600;
-
                 border-bottom: 2px solid var(--orange-default);
                 
                 color: var(--orange-default);

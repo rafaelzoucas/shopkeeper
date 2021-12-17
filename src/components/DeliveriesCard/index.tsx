@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Delivery } from '../Delivery'
 
 import { 
-    MdAdd, 
     MdExpandLess, 
     MdExpandMore,
     MdQuestionAnswer,
@@ -72,10 +71,10 @@ export function DeliveriesCard() {
             }
 
             <Footer>
-                <ActionButton>
+                {/* <ActionButton>
                     <MdAdd />
                     Adicionar entrega
-                </ActionButton>
+                </ActionButton> */}
                 
 
                 <ActionButton >

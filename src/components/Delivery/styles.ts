@@ -60,8 +60,12 @@ export const Tag = styled.div`
 
     font-size: 0.75rem;
     font-weight: 500;
-
+    
     gap: 0.25rem;
+    
+    span {
+        font-size: 0.75rem;
+    }
 `
 
 export const BodyContainer = styled.div`

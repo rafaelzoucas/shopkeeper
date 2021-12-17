@@ -99,12 +99,12 @@ export function Header() {
                                 Minha conta
                             </p>
                         </Link>
-                        <a href="#">
+                        <Link to="#">
                             <p>
                                 <MdFavorite className="icon" />
                                 Entregadores Favoritos
                             </p>
-                        </a>
+                        </Link>
                         <a 
                             href="https://api.whatsapp.com/send?phone=5518996465807&fbclid=IwAR1aNtRPkUTX9Xl89Wv8dmkpSdqWpkiG7FgJeXu02rnCOWlW6wCVXWbteUo" 
                             target="blank"
@@ -114,18 +114,18 @@ export function Header() {
                                 Ajuda
                             </p>
                         </a>
-                        <a href="#">
+                        <Link to="#">
                             <p>
                                 <MdSettings className="icon" />
                                 Configurações
                             </p>
-                        </a>
-                        <a href="#">
+                        </Link>
+                        <Link to="#">
                             <p>
                                 <MdLogout className="icon" />
                                 Sair
                             </p>
-                        </a>
+                        </Link>
                         <AddBalanceButton />
                     </MoreMenu>
                 ) : null}
