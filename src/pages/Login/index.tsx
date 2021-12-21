@@ -1,42 +1,34 @@
-import { Link } from 'react-router-dom';
+import { FormEvent, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
-import { 
-    Container, 
-    LoginForm,
-    Register,
-} from './styles';
-import { SubmitButton } from '../../styles/MaterialDesign';
+import { SubmitButton } from "../../styles/MaterialDesign"
+import { MdChevronRight } from "react-icons/md"
+import { Container, LoginForm, Register } from "./styles"
 
-import { MdChevronRight } from 'react-icons/md';
-
-import logoImg from '../../assets/logo-white.png';
-import { useEffect, useState } from 'react';
-import { api } from '../../services/api';
+import logoImg from '../../assets/logo-white.png'
+import { useAuth } from "../../contexts/AuthProvider/useAuth"
 
 export function Login() {
-    const [email, setEmail] = useState('email@email.com')
-    const [password, setPassword] = useState('asdfasdfasdf')
-
-    function showNotify(){
-
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const auth = useAuth()
+    const navigate = useNavigate()
+    
+    const data = {
+        email,
+        password,
     }
-
-    // {
-    //     email: "teste@hotmail.com"
-    // }
-
-    // useEffect(() => {
-    //     api.post('login/shop')
-    //     .then(response => console.log(response.data))
-    // }, [])
-
-    function handleLogin() {
-        const data ={
-            email,
-            password
+    
+    async function handleLogin(event: FormEvent) {
+        event.preventDefault()
+        
+        console.log(data, 'Chegou no handleLogin')
+        try {
+            await auth.authenticate(email, password)
+            navigate('/home')
+        } catch (error) {
+            alert('email ou senha invalidos')
         }
-
-        api.post('/login/shop', data)
     }
 
     return(
@@ -44,20 +36,24 @@ export function Login() {
             <Container>
                 <img src={logoImg} alt="Helix" width="160"/>
 
-                <LoginForm>
+                <LoginForm onSubmit={handleLogin}>
                     <h3>Login</h3>
 
                     <label>E-mail</label>
                     <input 
                         type="email" 
                         placeholder="exemplo@exemplo.com"
+                        value={email}
+                        onChange={event => setEmail(event.target.value)}
                         required
                     />
 
                     <label>Senha</label>
                     <input 
-                        type="password" 
-                        placeholder="A sua senha vai aqui"
+                        type="password"
+                        placeholder="Digite a sua senha aqui"
+                        value={password}
+                        onChange={event => setPassword(event.target.value)}
                         required
                     />
 
@@ -68,7 +64,7 @@ export function Login() {
                         <p>Esqueci a minha senha</p>
                     </Link>
 
-                    <SubmitButton onClick={handleLogin}>
+                    <SubmitButton type="submit">
                         Login
                     </SubmitButton>
                 </LoginForm>
@@ -79,7 +75,6 @@ export function Login() {
                         <MdChevronRight className="chevronRight" />
                     </Link>
                 </Register>
-
             </Container>
         </>
     )

@@ -1,68 +1,59 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
-import { MainRoutes } from './routes'
+import { AuthProvider } from './contexts/AuthProvider'
 
-import { Header } from './components/Header'
-import { NewDeliveryForm } from './components/NewDeliveryForm';
-import { NewDeliveryButton } from './components/NewDeliveryButton';
-import { DeliveryDetailsModal } from './components/Modals/DeliveryDetailsModal'
-import { DeliverymanProfileModal } from './components/Modals/DeliverymanProfileModal'
+import { ProtectedLayout } from './components/ProtectedLayout';
 
 import { GlobalStyle } from './styles/global'
-import { 
-    Container, 
-    Main 
-} from './styles'
+
 import { Login } from './pages/Login';
-import { Snackbar } from './components/Snackbar';
-import { api } from './services/api';
 
 export function App() {
-  const [isUserLogged, setIsUserLogged] = useState(false)
-
-  useEffect(() => {
-    api.get('login/shop')
-        .then(response => console.log(response.data))
-  }, [])
-
   return (
-      <Router>
-        {isUserLogged ? (
-          <>
-            <button onClick={() => setIsUserLogged(false)}>
-              logout
-            </button>
-            <Header />
-            <Container>
-                <NewDeliveryButton />
-                <aside>
-                    <NewDeliveryForm />
-                </aside>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route 
+              path="/home" 
+              element={
+                <ProtectedLayout>
+                  <h1>Olá essa é a home</h1>
+                </ProtectedLayout>
+              } 
+            />
 
-                <Main>
-                    <MainRoutes />
-                </Main>
-            </Container>
-          </>
-        ) : (
-          <>
-            <button onClick={() => setIsUserLogged(true)}>
-              login
-            </button>
-            <Login />
-          </>
-        )}
-          <DeliveryDetailsModal />
-          <DeliverymanProfileModal />
-          <GlobalStyle />
+            <Route 
+              path="/login" 
+              element={
+                <Login />
+              } 
+            />
+          </Routes>
+        </Router>
+        {/* <>
+          <Header />
+          <Container>
+              <NewDeliveryButton />
+              <aside>
+                  <NewDeliveryForm />
+              </aside>
 
-          <Snackbar 
-              title="Validando login" 
-              message="osidjfoaisdjfasd" 
-              type="loading" 
-              timeOut={null}
-          />
-      </Router>
+              <Main>
+                  <MainRoutes />
+              </Main>
+          </Container>
+        </>
+        <Login />
+        <DeliveryDetailsModal />
+        <DeliverymanProfileModal />
+        
+        <Snackbar 
+        title="Validando login" 
+        message="osidjfoaisdjfasd" 
+        type="loading" 
+        timeOut={null}
+      /> */}
+        <GlobalStyle />
+      </AuthProvider>
   );
 }
