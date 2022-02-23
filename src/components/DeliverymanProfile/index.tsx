@@ -2,7 +2,10 @@ import { useState } from "react"
 
 import { Toggle } from '../Toggle'
 
+import { DeliverymanProfileProps } from '../../contexts/DeliverymanProvider/types'
+
 import {
+    MdContentCopy,
     MdDeliveryDining,
     MdFavorite, 
     MdFavoriteBorder,
@@ -20,13 +23,15 @@ import {
     UserImg, 
     SummaryItem,
     Settings,
-    SettingsItem
+    SettingsItem,
+    PIXKey,
+    WhatsApp
 } from "./styles"
 
 import ProfilePic from '../../assets/deliveryman.png'
-import { FaStar } from "react-icons/fa"
+import { FaStar, FaWhatsapp } from "react-icons/fa"
 
-export function DeliverymanProfile() {
+export function DeliverymanProfile(props: DeliverymanProfileProps) {
     const [isFavorite, setIsFavorite] = useState(false)
 
     function handleFavorite() {
@@ -44,11 +49,11 @@ export function DeliverymanProfile() {
                     </UserImg>
 
                     <Data>
-                        <h2>{'Wellington Oliveira'}</h2>
+                        <h2>{props.deliverymanName}</h2>
                         
                         <Rate>
                             <FaStar />
-                            <strong>{'4.9'}</strong>
+                            <strong>{props.deliverymanRatingAverage}</strong>
                         </Rate>
 
                         <Favorite onClick={handleFavorite}>
@@ -58,8 +63,16 @@ export function DeliverymanProfile() {
                             }
                             Favorito
                         </Favorite>
-                    </Data>
+                        <WhatsApp>
+                            <FaWhatsapp className='icon'/>
+                            Whatsapp 
+                        </WhatsApp>
 
+                        <PIXKey>
+                            <MdContentCopy className='icon'/>
+                            Copiar Chave PIX
+                        </PIXKey>
+                    </Data>
                 </Content>
             </DataContainer>
             

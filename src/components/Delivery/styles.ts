@@ -45,6 +45,11 @@ export const TagsContainer = styled.div`
         background: var(--green-light);
         color: var(--green-dark);
     }
+
+    .canceled {
+        background: var(--red-light);
+        color: var(--red-dark);
+    }
 `
 
 export const Tag = styled.div`

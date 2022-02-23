@@ -3,27 +3,26 @@ import {
     Route
 } from 'react-router-dom'
 
-import { Finance } from './pages/Finance'
 import { Deliveries } from './pages/Deliveries';
+import { Favorites } from './pages/Favorites'
+import { Finance } from './pages/Finance'
 import { MyAccount } from './pages/MyAccount';
+import { Settings } from './pages/Settings'
+
 
 export function MainRoutes() {
+
     return (
         <Routes>
             <Route path="/" element={<Deliveries />} />
-            <Route path="/finance" element={
-                <Finance currentBalance="test" items={
-                    [
-                        {
-                            id: 1,
-                            description: 'OIIII',
-                            date: '07/12/21',
-                            value: 'R$ 50,00'
-                        }
-                    ]
-                }
-                />} />
+
+            <Route path="/favorites" element={<Favorites />} />
+
+            <Route path="/finance" element={<Finance />} />
+
             <Route path="/account" element={<MyAccount />} />
+
+            <Route path="/settings" element={<Settings />} />
         </Routes>
     )
 }

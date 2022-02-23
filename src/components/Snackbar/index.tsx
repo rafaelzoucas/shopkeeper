@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 
 import { MdClose } from 'react-icons/md';
@@ -14,6 +15,14 @@ interface NotifyProps{
 
 export function Snackbar(props: NotifyProps) {
     const [isSnackbarVisible, setIsSnackbarVisible] = useState(false)
+
+    const oi = React.createRef<HTMLElement>();
+
+    // setTimeout(() => {
+    //     console.log(oi);
+        
+    //     oi.current!.textContent = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+    // }, 3000)
 
     if(props.timeOut !== null){
         setTimeout(() => {
@@ -39,7 +48,7 @@ export function Snackbar(props: NotifyProps) {
             state={isSnackbarVisible}
         >
             <Description>
-                <span data-notify="title">
+                <span data-notify="title" ref={oi}>
                     {props.title}
                 </span>
 

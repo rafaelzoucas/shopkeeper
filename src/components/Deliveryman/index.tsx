@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Modal from 'react-modal'
 
+import { DeliverymanProps } from '../../contexts/DeliverymanProvider/types'
+
 import {
     Container,
     HeaderButton,
@@ -16,7 +18,7 @@ import deliverymanProfileImg from '../../assets/deliveryman.png'
 import { DeliverymanProfile } from '../DeliverymanProfile'
 import { MdArrowBack, MdMoreVert } from 'react-icons/md'
 
-export function Deliveryman() {
+export function Deliveryman(props: DeliverymanProps) {
     const [isDeliverymanProfileModalOpen, setIsDeliverymanProfileModalOpen] = useState(false)
 
     function handleCloseDeliverymanProfileModal() {
@@ -32,11 +34,11 @@ export function Deliveryman() {
             </UserImg>
             
             <Name>
-                <strong>Wellington</strong>
+                <strong>{props.deliverymanName}</strong>
 
                 <Rate>
                     <FaStar />
-                    <strong>4.9</strong>
+                    <strong>{props.deliverymanRatingAverage}</strong>
                 </Rate>
             </Name>
         </Container>
@@ -58,7 +60,11 @@ export function Deliveryman() {
                     <MdMoreVert />
                 </HeaderButton>
             </HeaderDetails>  
-            <DeliverymanProfile />
+            <DeliverymanProfile 
+                deliverymanName="Mauro Vinicius"
+                deliverymanRatingAverage="4.9"
+                pixKey="test"
+            />
         </Modal>
         </>
     )

@@ -21,32 +21,48 @@ import {
 import { Deliveryman } from '../Deliveryman'
 import { FaSpinner } from 'react-icons/fa'
 
-export function DeliveryDetails() {
+interface DeliveryProps {
+    id: string,
+    addressName: string
+    addressReference: string | null,
+    addressNumber: string | null,
+    addressComplement: string | null,
+    observation: string | null,
+    status: string,
+    creationDate: string,
+    thereWasUnforeseen: boolean | null,
+    totalTime: Number | null,
+    unforeseens: Array<string>,
+    currentStep: string,
+    valueToDeliveryman: string,
+    prepareTime: string | null,
+    canceledBy: string | null,
+    allowRetryQueue: boolean
+}
+
+export function DeliveryDetails(delivery: DeliveryProps) {
     return(
         <Container>
-            
+            <strong>Entrega #{delivery.id}</strong>
 
-            <strong>Entrega #1234</strong>
-
-            <Deliveryman />
+            <Deliveryman 
+                deliverymanName="Mauro Vinicius"
+                deliverymanRatingAverage="4.9"
+            />
 
             <DateTime>
-                30/09/2021 - 23:22
+                {delivery.creationDate}
             </DateTime>
 
             <TagsContainer>
                 <Tag className="inProgress">
                     <FaSpinner />
                     {/* <MdCheck /> */}
-                    <span>Aguardando</span>
+                    <span>{delivery.status}</span>
                 </Tag>
                 <Tag>
                     <MdHourglassTop />
-                    <span>19:00</span>
-                </Tag>
-                <Tag>
-                    <MdSchedule />
-                    <span>Hoje - 12:56</span>
+                    <span>{delivery.totalTime}</span>
                 </Tag>
             </TagsContainer>
 
@@ -58,8 +74,8 @@ export function DeliveryDetails() {
                     Rua de destino
                 </Label>
                 
-                <strong>Av Integração, 425 - ap 12</strong>
-                <p>Jardim Nossa Senhora de Fátima</p>
+                <strong>{`${delivery.addressName}, ${delivery.addressNumber}`}</strong>
+                <p>{delivery.addressComplement}</p>
             </Address>
 
             <hr />
@@ -70,7 +86,7 @@ export function DeliveryDetails() {
                     Observações (opcional)
                 </Label>
                 <strong>
-                    Troco para R$ 50,00
+                    {delivery.observation}
                 </strong>
             </div>
 
@@ -82,7 +98,7 @@ export function DeliveryDetails() {
                     Tempo de preparo
                 </Label>
                 <strong>
-                    15 minutos
+                    {delivery.prepareTime}
                 </strong>
             </div>
 

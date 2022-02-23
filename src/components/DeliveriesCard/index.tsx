@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Delivery } from '../Delivery'
+
+import { DeliveryCardProps } from '../../contexts/DeliveriesProvider/types'
 
 import { 
     MdExpandLess, 
     MdExpandMore,
-    MdQuestionAnswer,
 } from 'react-icons/md'
+import { FaWhatsapp } from "react-icons/fa";
 
 import { 
     Container,
@@ -19,24 +21,39 @@ import {
 
 import { Deliveryman } from '../Deliveryman'
 
-export function DeliveriesCard() {
+export function DeliveriesCard(props: DeliveryCardProps) {
     const [isDeliveriesVisible, setIsDeliveriesVisible] = useState(true)
+    const [deliveriesProps] = useState(props.deliveries)
+    const [totalToPay, setTotalToPay] = useState(0)
+
+    deliveriesProps.map(delivery => 
+       setTotalToPay(totalToPay + parseFloat(delivery.valueToDeliveryman)) 
+    )
     
     function handleExpandCard() {
         isDeliveriesVisible 
-        ? setIsDeliveriesVisible(false) 
+        ? setIsDeliveriesVisible(false)
         : setIsDeliveriesVisible(true)
     }
 
     return(
-        <>
         <Container>
             <Header>
-                <Deliveryman />
+                <Deliveryman 
+                    deliverymanName={props.deliveryman.deliverymanName}
+                    deliverymanRatingAverage={props.deliveryman.deliverymanRatingAverage}
+                />
 
                 <Summary>
-                    <span>5 entregas</span>
-                    <strong >R$ 30,50</strong>
+                    <span>{deliveriesProps.length} entregas</span>
+                    <strong>
+                        {
+                            new Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(totalToPay)
+                        }
+                    </strong>
                     
                     {
                         isDeliveriesVisible ? (
@@ -60,8 +77,29 @@ export function DeliveriesCard() {
                 isDeliveriesVisible ? (
                     <>
                         <DeliveriesContainer>
-                            <Delivery />
-                            <Delivery />
+                            {
+                              deliveriesProps.filter(value => value.status !== "canceled").map((deliveryProps) => 
+                                <Delivery
+                                    key={deliveryProps.id}
+                                    id={deliveryProps.id}
+                                    addressName={deliveryProps.addressName}
+                                    addressReference={deliveryProps.addressReference}
+                                    addressNumber={deliveryProps.addressNumber}
+                                    addressComplement={deliveryProps.addressComplement}
+                                    observation={deliveryProps.observation}
+                                    status={deliveryProps.status}
+                                    creationDate={deliveryProps.creationDate}
+                                    thereWasUnforeseen={deliveryProps.thereWasUnforeseen === 'true'}
+                                    totalTime={deliveryProps.totalTime}
+                                    unforeseens={deliveryProps.unforeseens}
+                                    currentStep={deliveryProps.currentStep}
+                                    valueToDeliveryman={deliveryProps.valueToDeliveryman}
+                                    prepareTime={deliveryProps.prepareTime}
+                                    canceledBy={deliveryProps.canceledBy}
+                                    allowRetryQueue={deliveryProps.allowRetryQueue}
+                                />
+                              )  
+                            }
                         </DeliveriesContainer>
                         <hr />
                     </>
@@ -75,19 +113,17 @@ export function DeliveriesCard() {
                     <MdAdd />
                     Adicionar entrega
                 </ActionButton> */}
-                
 
                 <ActionButton >
                     <a 
-                        href="https://api.whatsapp.com/send?phone=5518996465807&fbclid=IwAR1aNtRPkUTX9Xl89Wv8dmkpSdqWpkiG7FgJeXu02rnCOWlW6wCVXWbteUo"
+                        href={`https://api.whatsapp.com/send?phone=55${props.deliveryman.phone}&fbclid=IwAR1aNtRPkUTX9Xl89Wv8dmkpSdqWpkiG7FgJeXu02rnCOWlW6wCVXWbteUo`}
                         target="blank"
                     >
-                    <MdQuestionAnswer />
-                    Ajuda
+                        <FaWhatsapp />
+                        Conversar com {props.deliveryman.deliverymanName}
                     </a>
                 </ActionButton>
             </Footer>
         </Container>
-        </>
     )
 }

@@ -22,6 +22,14 @@ export const GlobalStyle = createGlobalStyle`
         --blue-light: #D0E9FF;
         --blue-default: #8CC0F0;
         --blue-dark: #124785;
+
+        --red-light: #FFD0D0;
+        --red-default: #F08C8C;
+        --red-dark: #851212;
+        
+        --yellow-light: #FFFDD0;
+        --yellow-default: #EEF08C;
+        --yellow-dark: #838512;
     }
 
     * {

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
 import { SubmitButton } from "../../styles/MaterialDesign"
@@ -9,39 +9,40 @@ import logoImg from '../../assets/logo-white.png'
 import { useAuth } from "../../contexts/AuthProvider/useAuth"
 
 export function Login() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const auth = useAuth()
     const navigate = useNavigate()
+
+    const [email, setEmail] = useState('mauroxs58@hotmail.com')
+    const [password, setPassword] = useState('ab9732_c')
+
+    useEffect(() => {
+        const token = auth.getUserLocalStorage()
     
-    const data = {
-        email,
-        password,
-    }
-    
+        if(token === null) {
+            return
+        }else{
+            navigate('/')
+        }
+    })
+
     async function handleLogin(event: FormEvent) {
         event.preventDefault()
-        
-        console.log(data, 'Chegou no handleLogin')
-        try {
-            await auth.authenticate(email, password)
-            navigate('/home')
-        } catch (error) {
-            alert('email ou senha invalidos')
-        }
+
+        await auth.authenticate(email, password)
+        console.log(auth.getUserLocalStorage)
     }
 
-    return(
+    return (
         <>
             <Container>
-                <img src={logoImg} alt="Helix" width="160"/>
+                <img src={logoImg} alt="Helix" width="160" />
 
                 <LoginForm onSubmit={handleLogin}>
                     <h3>Login</h3>
 
                     <label>E-mail</label>
-                    <input 
-                        type="email" 
+                    <input
+                        type="email"
                         placeholder="exemplo@exemplo.com"
                         value={email}
                         onChange={event => setEmail(event.target.value)}
@@ -49,7 +50,7 @@ export function Login() {
                     />
 
                     <label>Senha</label>
-                    <input 
+                    <input
                         type="password"
                         placeholder="Digite a sua senha aqui"
                         value={password}
@@ -57,8 +58,8 @@ export function Login() {
                         required
                     />
 
-                    <Link 
-                        to="/forgot-password" 
+                    <Link
+                        to="/forgot-password"
                         className="forgot-password"
                     >
                         <p>Esqueci a minha senha</p>

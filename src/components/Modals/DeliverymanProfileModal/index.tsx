@@ -17,7 +17,11 @@ export function DeliverymanProfileModal() {
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >    
-            <DeliverymanProfile />
+            <DeliverymanProfile 
+                deliverymanName="Mauro Vinicius"
+                deliverymanRatingAverage="4.9"
+                pixKey="asdf"
+            />
         </Modal>
     )
 }

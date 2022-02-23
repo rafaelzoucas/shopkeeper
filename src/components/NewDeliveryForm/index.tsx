@@ -21,7 +21,8 @@ import {
     MdDelete,
 } from "react-icons/md"
 
-import { ChooseBySystem, 
+import { 
+    ChooseBySystem, 
     ChosenCollectAddress, 
     Container,
     ContainerNumberAndComplement,
@@ -43,15 +44,24 @@ import { ChooseBySystem,
 } from "../NewDeliveryForm/styles"
 import { FaHeartBroken } from "react-icons/fa"
 import { SubmitButton } from "../../styles/MaterialDesign"
+import { useFinance } from "../../contexts/FinanceProvider/useFinance"
 
 export function NewDeliveryForm() {
     const [timeCounter, setTimeCounter] = useState(5)
+    const [collectAddress, setCollectAddress] = useState('')
+    const [addressName, setAddressName] = useState('')
+    const [addressNumber, setAddressNumber] = useState('')
+    const [addressComplement, setAddressComplement] = useState('')
+    const [observations, setObservations] = useState('')
+    const [deliveryman, setDeliveryman] = useState('')
 
     const [preparationTime, setPreparationTime] = useState('ready')
     const [isCollectAddressesModalOpen, setIsCollectAddressesModalOpen] = useState(false)
     const [isNewCollectAddressVisible, setIsNewCollectAddressVisible] = useState(false)
     const [isDeliverymenModalOpen, setIsDeliverymenModalOpen] = useState(false)
     const [isNewDeliverymanVisible, setIsNewDeliverymanVisible] = useState(false)
+
+    const currentBalance = useFinance()
 
     function incrementTime() {
         setTimeCounter(timeCounter + 5)
@@ -104,7 +114,10 @@ export function NewDeliveryForm() {
                         <MdOutlineFmdGood />
                         Rua de destino
                     </Label>
-                    <input type="text" placeholder="Rua onde o entregador levará o pedido" required />
+                    <input 
+                        type="text" 
+                        placeholder="Rua onde o entregador levará o pedido" 
+                        required />
                 </InputForm>
 
                 <ContainerNumberAndComplement>
@@ -157,15 +170,15 @@ export function NewDeliveryForm() {
                             type="button"
                         >
                             <div className="setPreparationTime">
-                                <button type="button" onClick={decrementTime}>
+                                <div onClick={decrementTime}>
                                     <MdRemove />
-                                </button>
+                                </div>
 
                                 {`${timeCounter} min`}
 
-                                <button type="button" onClick={incrementTime}>
+                                <div onClick={incrementTime}>
                                     <MdAdd />
-                                </button>
+                                </div>
                             </div>
                         </RadioButton>
                     </div>
@@ -190,27 +203,47 @@ export function NewDeliveryForm() {
                 <Summary>
                     <div>
                         <span>Saldo atual</span>
-                        <strong>R$ 130,00</strong>
+                        <strong>
+                            {new Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(currentBalance)}
+                        </strong>
                     </div>
 
                     <div>
                         <span>Distância</span>
-                        <strong>2.4 Km</strong>
+                        <strong>{'2.4'} Km</strong>
                     </div>
 
                     <div>
                         <span>Para o entregador</span>
-                        <strong>R$ 5,50</strong>
+                        <strong>
+                            {new Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(currentBalance)}
+                        </strong>
                     </div>
 
                     <div>
                         <span>Saldo a ser descontado</span>
-                        <strong>R$ 1,00</strong>
+                        <strong>
+                            {new Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(currentBalance)}
+                        </strong>
                     </div>
 
                     <div>
                         <span>Total</span>
-                        <h2>R$ 6,50</h2>
+                        <h2>
+                            {new Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(currentBalance)}
+                        </h2>
                     </div>
                 </Summary>
 
@@ -378,7 +411,10 @@ export function NewDeliveryForm() {
 
                         <ModalContainer>
                             <ModalItem>
-                                <Deliveryman />
+                                <Deliveryman 
+                                    deliverymanName="Mauro Vinicius"
+                                    deliverymanRatingAverage="4.9"
+                                />
 
                                 <ModalItemActions>
                                     <MdCheckCircle className="iconCheck" />

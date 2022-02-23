@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { api } from '../../services/api'
+
+import { DeliveryCardProps } from '../../contexts/DeliveriesProvider/types';
+// import { useDeliveries } from '../../contexts/DeliveriesProvider/useDeliveries'
 
 import { FinishedDeliveries } from '../../components/FinishedDeliveries';
 import { DeliveriesCard } from '../../components/DeliveriesCard';
@@ -10,14 +12,21 @@ import {
     Line 
 } from "../Deliveries/styles";
 
+import { api } from '../../services/api';
+
 export function Deliveries() {
     const [isFilterActive, setIsFilterActive] = useState('inProgress')
-
-    useEffect(() => {
-        api.get('deliveries')
-            .then(response => console.log(response.data))
-    }, []) 
+    const [cards, setCards] = useState<DeliveryCardProps[]>([])
     
+    useEffect(() => {
+        api.post(
+            '/shop/listing-delivery/model', 
+            {token: localStorage.getItem('user-token')}
+        ).then(({data}) => {
+            setCards(data.cards)
+        })
+    }, [])
+
     return(
         <>
             <Tabs>
@@ -37,13 +46,21 @@ export function Deliveries() {
             
             <Line />
 
-            {isFilterActive === 'inProgress' ? (
-                <>
-                    <DeliveriesCard />
-                </>
-
-                ) : (
-                    <FinishedDeliveries />
+            {
+                isFilterActive === 'inProgress' 
+                ? (
+                    cards.filter(value => value.deliveryman !== null).map((card) => 
+                        <DeliveriesCard
+                            key={card.deliveryman.id}
+                            deliveryman={card.deliveryman}
+                            deliveries={card.deliveries}
+                        />
+                    )
+                ) 
+                : (
+                    cards.map((card) => 
+                        <FinishedDeliveries />
+                    )
                 )
             }
         </>

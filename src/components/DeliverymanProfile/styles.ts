@@ -71,6 +71,27 @@ export const Favorite = styled.button`
     gap: 0.25rem;
 `
 
+export const PIXKey = styled.button`
+    max-width: 150px;
+    padding: 0.5rem;
+
+    gap: 0.25rem;
+
+    .icon {
+        font-size: 0.875rem
+    }
+`
+export const WhatsApp = styled.button`
+    max-width: 105px;
+    padding: 0.5rem;
+
+    gap: 0.25rem;
+
+    .icon {
+        font-size: 0.875rem
+    }
+`
+
 export const Rate = styled.div`
     display: flex;
     flex-direction: row;
@@ -114,22 +135,33 @@ export const SummaryItem = styled.div`
 `
 
 export const Settings = styled.section`
+    display: flex;
+    flex-direction: column;
+
     margin-top: 1rem;
 
-    padding: 1rem;
-
-    border-radius: 0.75rem;
-
-    background-color: var(--background);
-`
+    
+    
+    gap: 0.5rem;    
+    `
 
 export const SettingsItem = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    
+    padding: 1rem;
 
+    border-radius: 0.75rem;
+    
+    background-color: var(--background);
+    
     .toggle {
         font-size: 4rem;
+    }
+
+    .icon {
+        font-size: 2rem;
     }
 `

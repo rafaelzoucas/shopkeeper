@@ -177,7 +177,7 @@ export const MoreMenu = styled.div`
     
     transition: all 0.2s ease 0s, visibility 0.2s ease 0s;
 
-    p {
+    /* p {
         display: flex;
         align-items: center;
 
@@ -197,7 +197,7 @@ export const MoreMenu = styled.div`
         &:first-of-type {
             margin-top: 0;
         }
-    }
+    } */
 
     button {
         width: 100%;
@@ -226,5 +226,30 @@ export const MoreMenu = styled.div`
         .icon {
             font-size: 1rem;
         }
+    }
+`
+
+export const MenuItem = styled.div`
+    display: flex;
+    align-items: center;
+
+    padding: 1rem 1rem;
+
+    margin: 0.5rem 0;
+
+    border-radius: 0.75rem;
+    
+    &:hover { 
+        background: var(--background);
+        cursor: pointer;
+    }
+
+    .icon {
+        margin-right: 1rem;
+        font-size: 1.5rem;
+    }
+
+    &:first-of-type {
+        margin-top: 0;
     }
 `

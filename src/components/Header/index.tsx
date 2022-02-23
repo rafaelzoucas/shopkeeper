@@ -8,6 +8,7 @@ import {
     Account,
     Title,
     MoreMenu,
+    MenuItem,
 } from './styles'
 
 import { 
@@ -24,10 +25,20 @@ import logoImg from '../../assets/logo-orange.png'
 import accountImg from '../../assets/asdfasdfasf.png'
 import { AddBalanceButton } from '../AddBalanceButton'
 
+import { useAuth } from '../../contexts/AuthProvider/useAuth'
+import { useFinance } from '../../contexts/FinanceProvider/useFinance'
+
 export function Header() {
     const navigate = useNavigate()
+    const auth = useAuth()
+    const currentBalance = useFinance()
+
     const currentLocation = useLocation()
     const [isMenuPopOverOpen, setIsMenuPopOverOpen] = useState(false)
+
+    function handleLogout() {
+        auth.logout()
+    }
 
     function handleMenuPopOver() {
         isMenuPopOverOpen === true
@@ -75,7 +86,12 @@ export function Header() {
                             Saldo atual
                         </p>
                         <p>
-                            <strong>R$ 130,00</strong>
+                            <strong>
+                                {new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(currentBalance)}
+                            </strong>
                         </p>
                     </Link>
                     
@@ -94,38 +110,38 @@ export function Header() {
                 {isMenuPopOverOpen ? (
                     <MoreMenu>
                         <Link to="/account">
-                            <p>
+                            <MenuItem>
                                 <MdPerson className="icon" />
                                 Minha conta
-                            </p>
+                            </MenuItem>
                         </Link>
-                        <Link to="#">
-                            <p>
+                        <Link to="/favorites">
+                            <MenuItem>
                                 <MdFavorite className="icon" />
                                 Entregadores Favoritos
-                            </p>
+                            </MenuItem>
                         </Link>
                         <a 
                             href="https://api.whatsapp.com/send?phone=5518996465807&fbclid=IwAR1aNtRPkUTX9Xl89Wv8dmkpSdqWpkiG7FgJeXu02rnCOWlW6wCVXWbteUo" 
                             target="blank"
                         >
-                            <p>
+                            <MenuItem>
                                 <MdHelp className="icon" />
                                 Ajuda
-                            </p>
+                            </MenuItem>
                         </a>
-                        <Link to="#">
-                            <p>
+                        <Link to="/settings">
+                            <MenuItem>
                                 <MdSettings className="icon" />
                                 Configurações
-                            </p>
+                            </MenuItem>
                         </Link>
-                        <Link to="#">
-                            <p>
+                        <div onClick={handleLogout}>
+                            <MenuItem>
                                 <MdLogout className="icon" />
                                 Sair
-                            </p>
-                        </Link>
+                            </MenuItem>
+                        </div>
                         <AddBalanceButton />
                     </MoreMenu>
                 ) : null}

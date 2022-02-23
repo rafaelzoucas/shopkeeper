@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import Modal from 'react-modal'
+
 import { DeliveryDetails } from '../DeliveryDetails'
+
+import { format } from 'date-fns'
 
 import {
     MdArrowBack,
@@ -26,8 +29,26 @@ import {
     HeaderButton,
 } from "../Delivery/styles"
 
+interface DeliveryProps {
+    id: string,
+    addressName: string
+    addressReference: string | null,
+    addressNumber: string |null,
+    addressComplement: string | null,
+    observation: string | null,
+    status: string,
+    creationDate: string,
+    thereWasUnforeseen: boolean | null,
+    totalTime: Number | null,
+    unforeseens: Array<string>,
+    currentStep: string,
+    valueToDeliveryman: string,
+    prepareTime: string | null,
+    canceledBy: string | null,
+    allowRetryQueue: boolean
+}
 
-export function Delivery() {
+export function Delivery(delivery: DeliveryProps) {
     const [isDeliveryDetailsModalOpen, setIsDeliveryDetailsModalOpen] = useState(false)
 
     function handleCloseDeliveryDetailsModal() {
@@ -42,15 +63,23 @@ export function Delivery() {
                         <Tag className="inProgress">
                             <FaSpinner />
                             {/* <MdCheck /> */}
-                            <span>Aguardando</span>
+                            <span>{delivery.status}</span>
                         </Tag>
                         <Tag>
                             <MdHourglassTop />
-                            <span>19:00</span>
+                            <span>
+                                {
+                                    delivery.totalTime
+                                }
+                            </span>
                         </Tag>
                         <Tag>
                             <MdSchedule />
-                            <span>Hoje - 12:56</span>
+                            <span>
+                                {
+                                    format(new Date(delivery.creationDate), 'd, MMM - HH:mm')
+                                }
+                            </span>
                         </Tag>
                     </TagsContainer>
                     <MdChevronRight className="chevronRight" />
@@ -58,17 +87,22 @@ export function Delivery() {
 
                 <BodyContainer>
                     <DeliveryData>
-                        <span>#1234</span>
+                        <span>#{delivery.id}</span>
                         
                         <Address>
-                            <strong>Av Integração, 425</strong>
-                            <p>Jardim Nossa Senhora de Fátima</p>
+                            <strong>{`${delivery.addressName}, ${delivery.addressNumber}`}</strong>
+                            <p>{delivery.addressReference}</p>
                         </Address>
                     </DeliveryData>
 
                     <div>
                         <DeliveryValue>
-                            R$ 15,50
+                            {
+                                new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(parseFloat(delivery.valueToDeliveryman))
+                            }
                         </DeliveryValue>
                     </div>
                 </BodyContainer>
@@ -91,7 +125,24 @@ export function Delivery() {
                         <MdMoreVert />
                     </HeaderButton>
                 </HeaderDetails>
-                <DeliveryDetails />
+                <DeliveryDetails
+                    id={delivery.id}
+                    addressName={delivery.addressName}
+                    addressReference={delivery.addressReference}
+                    addressNumber={delivery.addressNumber}
+                    addressComplement={delivery.addressComplement}
+                    observation={delivery.observation}
+                    status={delivery.status}
+                    creationDate={delivery.creationDate}
+                    thereWasUnforeseen={delivery.thereWasUnforeseen}
+                    totalTime={delivery.totalTime}
+                    unforeseens={delivery.unforeseens}
+                    currentStep={delivery.currentStep}
+                    valueToDeliveryman={delivery.valueToDeliveryman}
+                    prepareTime={delivery.prepareTime}
+                    canceledBy={delivery.canceledBy}
+                    allowRetryQueue={delivery.allowRetryQueue}
+                />
             </Modal>
         </>
     )

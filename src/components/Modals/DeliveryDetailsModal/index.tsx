@@ -17,7 +17,7 @@ export function DeliveryDetailsModal() {
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
-            <DeliveryDetails />
+            
         </Modal>
     )
 }

@@ -139,11 +139,19 @@ export const RadioButton = styled.button<RadioButtonProps>`
         font-size: 1.5rem;
         font-weight: 500;
 
-        button {
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             width: 3rem;
             height: 3rem;
 
+            border-radius: 0.75rem;
+
             font-size: 1.5rem;
+
+            background-color: var(--line);
 
             transition: background-color 0.2s, color 0.2s;
 

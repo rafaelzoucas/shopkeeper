@@ -159,7 +159,12 @@ export const Payment = styled.div`
         border-bottom: 0;
     }
 `
-export const Icon = styled.div`
+
+interface IconColorProps {
+    statusColor: string;
+}
+
+export const Icon = styled.div<IconColorProps>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,11 +173,26 @@ export const Icon = styled.div`
     height: 3rem;
 
     border-radius: 50%;
-
-    background-color: var(--green-light);
-    color: var(--green-dark);
-
+    
     font-size: 2rem;
+    
+    background-color: 
+        ${(props) => props.statusColor === 'Verde' 
+            ? '#D0FFE9' 
+            : props.statusColor === 'Vermelho' 
+            ? '#FFD0D0' 
+            : '#FFFDD0'
+        }
+    ;
+
+    color: 
+        ${(props) => props.statusColor === 'Verde' 
+            ? '#12854E' 
+            : props.statusColor === 'Vermelho' 
+            ? '#851212' 
+            : '#838512'
+        }
+    ;
 `
 
 export const Description = styled.div`

@@ -5,7 +5,6 @@ import {
     Payment,
     Icon,
     Description,
-    Amount,
     DayPayments,
     AddBalance,
     PixKey,
@@ -20,35 +19,70 @@ import {
 } from "react-icons/md"
 import { SubmitButton } from "../../styles/MaterialDesign"
 
-type Finance_Model_Item = {
-    id: number,
-    description: string,
+import { useFinance } from "../../contexts/FinanceProvider/useFinance"
+import { useEffect, useState } from "react"
+import { api } from "../../services/api"
+
+interface EventProps {
+    color: string,
     date: string,
-    value: string
+    message: string,
+    title: string,
+
 }
 
-type Finance_Model = {
-    currentBalance: string,
-    items: Finance_Model_Item[]
-}
+export function Finance() {
+    const currentBalance = useFinance()
+    const [events, setEvents] = useState<EventProps[]>([])
+    
+    const pixKey = '32.185.931/0001-06'
 
-export function Finance(props: Finance_Model) {
+    useEffect(() => {
+        api.post(
+            'shop/payment-historic/model', 
+            {token: localStorage.getItem('user-token')}
+        ).then(({data}) => {
+            setEvents(data.events)
+        })
+    }, [])
+
+    function copyToClipboard() {
+        var textField = document.createElement('textarea')
+        textField.innerText = pixKey
+        document.body.appendChild(textField)
+        textField.select()
+        document.execCommand('copy')
+        textField.remove()
+    }
+
+    function sendFile() {
+
+    }
+
     return(
         <Container>
             <Balance>
                 <CurrentBalance>
                     <span>Saldo atual</span>
-                    <h1>{props.currentBalance}</h1>
+                    <h1>
+                        {new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }).format(currentBalance)}
+                    </h1>
                 </CurrentBalance>
 
-                <AddBalance>
+                <AddBalance onSubmit={sendFile}>
                     <h3>Adicionar saldo</h3>
                     
                     <BalanceItem>
                         <label htmlFor="">Chave PIX</label>
-                        <PixKey>
+                        <PixKey
+                            type="button" 
+                            onClick={copyToClipboard}
+                        >
                             <strong>
-                                32.185.931/0001-06
+                                {pixKey}
                             </strong>
 
                             <MdContentCopy />
@@ -69,7 +103,7 @@ export function Finance(props: Finance_Model) {
                         <input id="fileBtn" type="file" required/>
                     </BalanceItem>
 
-                    <SubmitButton disabled>
+                    <SubmitButton type="submit" disabled>
                         Enviar comprovante
                     </SubmitButton>
                 </AddBalance>
@@ -79,26 +113,33 @@ export function Finance(props: Finance_Model) {
 
             <DayPayments>
                 <header>
-                    <span>27 Nov</span>
+                    <span>Histórico de pagamentos</span>
                 </header>
-                {
-                    props.items.map((item) => 
-                        <Payment key={item.id}>
-                            <Icon>
+                    {events.map(event => (
+                        <Payment key={event.date}>
+                            <Icon 
+                                statusColor={event.color}
+                            >
                                 <FaDollarSign />
                             </Icon>
 
                             <Description>
-                                <strong>{item.description}</strong>
-                                <p>{item.date}</p>
+                                <strong>
+                                    {event.title}
+                                </strong>
+                                <p>
+                                    {event.message}
+                                </p>
                             </Description>
 
-                            <Amount>
-                                {item.value}
-                            </Amount>
+                            {/* <Amount>
+                                {new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(currentBalance)}
+                            </Amount> */}
                         </Payment>
-                    )
-                }
+                    ))}
             </DayPayments>
         </Container>
     )

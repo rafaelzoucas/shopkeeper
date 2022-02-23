@@ -10,10 +10,24 @@ import {
     Summary, 
     SummaryItem 
 } from "../FinishedDeliveries/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "../../services/api";
+import { DeliveryCardProps } from "../../contexts/DeliveriesProvider/types";
 
 export function FinishedDeliveries(){
     const [isFilterActive, setIsFilterActive] = useState('all')
+
+    const [cards, setCards] = useState<DeliveryCardProps[]>([])
+    
+    useEffect(() => {
+        api.post(
+            '/shop/listing-delivery/model', 
+            {token: localStorage.getItem('user-token')}
+        ).then(({data}) => {
+            setCards(data.cards)
+        })
+    }, [])
+    
     return(
         <Container>
             <div>
@@ -71,9 +85,14 @@ export function FinishedDeliveries(){
 
             <h3>Hoje</h3>
 
-            <DeliveriesCard />
-            <DeliveriesCard />
-            <DeliveriesCard />
+            {
+                cards.map((card) => 
+                    <DeliveriesCard 
+                        deliveryman={card.deliveryman}
+                        deliveries={card.deliveries}
+                    />
+                )
+            }
 
             <hr />
 

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const SubmitButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 100%;
     height: 4rem;
 
@@ -10,6 +14,7 @@ export const SubmitButton = styled.button`
 
     color: #FFF;
     font-weight: 500;
+    font-size: 1rem;
 
     border-bottom: 5px solid var(--orange-dark);
 
