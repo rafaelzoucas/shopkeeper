@@ -25,10 +25,6 @@ export function DeliveriesCard(props: DeliveryCardProps) {
     const [isDeliveriesVisible, setIsDeliveriesVisible] = useState(true)
     const [deliveriesProps] = useState(props.deliveries)
     const [totalToPay, setTotalToPay] = useState(0)
-
-    deliveriesProps.map(delivery => 
-       setTotalToPay(totalToPay + parseFloat(delivery.valueToDeliveryman)) 
-    )
     
     function handleExpandCard() {
         isDeliveriesVisible 
